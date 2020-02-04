@@ -29,7 +29,6 @@ if __name__ == '__main__':
         topics = str(sys.argv[1])
         topic_list = topics.split(",")
         topic_list = [topic.strip() for topic in topics.split(',')]
-        print(topic_list)
 
         for topic in topic_list:
             #Register subscriber
