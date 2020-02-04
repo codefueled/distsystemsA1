@@ -15,5 +15,4 @@ while True:
     print("Received request: %s" % message)
     #  Do some 'work'
     #my_topic, messagedata = message.split("||")
-    time.sleep(1)
     pub_socket.send_string(message)

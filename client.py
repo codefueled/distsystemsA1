@@ -18,11 +18,8 @@ def register_sub(topicname):
 
 def notify():
     while True:
-        time.sleep(1)
         message = socket.recv_string()
-        time.sleep(1)
         print("Received message topic: with message %s" % message)
-
 
 if __name__ == '__main__':
     #Handle input
