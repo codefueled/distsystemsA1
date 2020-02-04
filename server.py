@@ -1,3 +1,4 @@
+# Publisher
 import zmq
 import time
 import sys
@@ -7,7 +8,7 @@ import random
 # Initialize the sockets
 ctx = zmq.Context()
 sock_pub = ctx.socket(zmq.PUB)
-sock_pub.bind("tcp://*:1234")
+sock_pub.connect("tcp://localhost:1234")
 
 # NOTE - CURRENTLY NOT USING ID
 def register_pub(topic, id):

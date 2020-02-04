@@ -1,4 +1,4 @@
-
+# Subscriber
 import zmq
 import sys
 import random
@@ -31,6 +31,6 @@ if __name__ == '__main__':
     else:
         topic = str(sys.argv[1])
 
-    #Register subscriber
-    register_sub(topic)
+        #Register subscriber
+        register_sub(topic)
 
