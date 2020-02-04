@@ -1,4 +1,6 @@
 # Publisher
+
+#### TODO: handle multiple topics from same publisher?
 import zmq
 import time
 import sys

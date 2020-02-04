@@ -7,30 +7,36 @@ import time
 
 context = zmq.Context()
 
-def register_sub(topicname):
-    #  Socket to talk to server
-    print("Connecting to the broker…")
-    socket = context.socket(zmq.SUB)
-    socket.connect("tcp://localhost:5556")
-    socket.setsockopt_string(zmq.SUBSCRIBE, topicname)
-    print("Connected to the broker")
+#  Socket to talk to server
+print("Connecting to the broker…")
+socket = context.socket(zmq.SUB)
+socket.connect("tcp://localhost:5556")
+print("Connected to the broker")
 
-    # Process 5 updates
+def register_sub(topicname):
+    socket.setsockopt_string(zmq.SUBSCRIBE, topicname)
+
+def notify():
     while True:
         time.sleep(1)
         message = socket.recv_string()
         time.sleep(1)
-        #my_topic, messagedata = message.split()
         print("Received message topic: with message %s" % message)
 
 
 if __name__ == '__main__':
     #Handle input
     if len(sys.argv) != 2:
-        print("Please re-run and provide one topic as the input argument")
+        print("Please re-run and provide a string containing the list of topics (separated by a comma) as the input argument")
     else:
-        topic = str(sys.argv[1])
+        topics = str(sys.argv[1])
+        topic_list = topics.split(",")
+        topic_list = [topic.strip() for topic in topics.split(',')]
+        print(topic_list)
 
-        #Register subscriber
-        register_sub(topic)
+        for topic in topic_list:
+            #Register subscriber
+            register_sub(topic)
+
+        notify()
 
