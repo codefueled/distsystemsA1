@@ -18,9 +18,9 @@ def notify():
         print("Topic: %s. Message: %s" % (topic, info))
 
 if __name__ == '__main__':
-    #Handle input
+    # handle input
     if len(sys.argv) != 3:
-        print("Please re-run and provide a string containing the list of topics (separated by a comma) as the input argument")
+        print("Please provide 2 arguments as specified in the readme")
     else:
         # parse topics
         topics = str(sys.argv[1])
