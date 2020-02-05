@@ -1,6 +1,8 @@
 # Assignment 1 for distributed systems
 The following assignment covers the pub-sub pattern with a single broker using ZMQ and mininet.
 
+You can configure python yourself, or download Python 3.6.10 and install the packages from the requirements.txt (it has a lot of extra stuff in it as well) file provided
+
 ## Simple Demo and Getting Started
 First, install mininet and ZMQ on a virtual machine (VirtualBox works well).
 Then clone this github repository into a local folder on the VM.
