@@ -15,9 +15,9 @@ Test ensures that the topic/message provided by the publisher is recognized by b
 """
 TEST 3
 Establish broker, 1 publisher, and 2 subscribers
-Publisher provides topic "cats" with message "tabby" && topic "dogs" = "pitbull" and 1 subscriber is subscribed to topic 
+Publisher provides topic "cats" with message "tabby" and 1 subscriber is subscribed to topic 
 "cats" and 1 subscriber is subscribed to topic "dogs".
-Test ensures that the multiple topics/messages provided by the publisher travels across the broker to both subscribers
+Test ensures that the subscriber subscribed to "cats" is the only one that receives the message.
 """
 
 """
@@ -52,14 +52,25 @@ messages corresponding to their topics.
 
 """
 TEST 7
-Establish broker, 1 publisher, and 1 subscriber
-Publisher provides topic = "cats" with message "tabby" and subscriber is subscribed to topic "cats"
-Test measures the latency between time of publication and receipt of information to all subscribers
+Establish broker and 1 publisher
+Publisher provides topic = "cats" with message "tabby" 
+Test ensures that broker will see publication regardless of there being subscribers.
 """
 
 """
 TEST 8
-Establish broker, 1 publisher, and 10 subscribers
+Establish 1 publisher and 1 subscriber
 Publisher provides topic = "cats" with message "tabby" and all subscribers are subscribed to topic "cats"
-Test measures the latency between time of publication and receipt of information to all subscribers
+Test ensures that there is no message transfer due to lack of broker.
 """
+
+"""
+TEST 9
+Establish 1 broker, 1 publisher, and 1 subscriber.
+Publisher provides topic = "cats" with message "tabby" and all subscribers are subscribed to topic "cats"
+After message is seen to subscriber, create another publisher with topic = "dogs" and message "hound" with corresponding
+subscriber topic = "dogs".
+This test ensures that publishers and subscribers can be added during anytime in the process.
+"""
+
+
