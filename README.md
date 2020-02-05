@@ -97,3 +97,8 @@ After message is seen to subscriber, create another publisher with topic = "dogs
 subscriber topic = "dogs".
 This test ensures that publishers and subscribers can be added during anytime in the process.
 ![test9](images/test9.jpg)
+
+## Measurements
+In the main method of measurements.py, comment out whichever measurement test you would like to run in order to receive the results. If any exceptions are thrown, the results will likely be printed out before the exceptions are thrown.
+
+Our raw collected measurements are in the measurements excel files, and our graphs (with explanations) are in the Measurements docx file
