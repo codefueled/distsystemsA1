@@ -10,7 +10,6 @@ import random
 # Initialize the sockets
 ctx = zmq.Context()
 sock_pub = ctx.socket(zmq.PUB)
-sock_pub.connect("tcp://localhost:1234")
 
 # NOTE - CURRENTLY NOT USING ID
 def register_pub(topic, id):
@@ -28,14 +27,20 @@ def publish(topic, info):
 
 if __name__ == '__main__':
     # handle input
-    if len(sys.argv) != 2:
-        print("Please re-run and provide one topic as the input argument")
+    if len(sys.argv) != 3:
+        print("Please re-run and provide two inputs")
     elif "," in sys.argv[1]:
         print("Please re-run and remove any '||' found in the topic name")
     elif "REGISTER" in sys.argv[1]:
         print("Please re-run and remove any occurances of 'REGISTER' found in the topic name")
     else:
         topic = sys.argv[1]
+        ip_add = sys.argv[2]
+        full_add = "tcp://" + str(ip_add) + ":1234"
+
+
+        sock_pub.connect(full_add)
+
 
         # generate id
         id = "" .join(random.choices(string.ascii_lowercase, k=8))
