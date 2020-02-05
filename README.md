@@ -27,10 +27,10 @@ Now we will see in the broker xterm window and the subscriber xterm window the t
 You should see the following results below:
 ![Demoimage](images/simpledemo.JPG)
 
-##Unit Tests
+## Unit Tests
 The following are unit tests that you can try to test the functionality of this pub-sub pattern.
 
-###Test 1
+### Test 1
 Establish broker, 1 publisher, and 1 subscriber
 Publisher provides topic = "cats" with message "tabby" and subscriber is subscribed to topic "cats"
 Test ensures that the topic/message provided by the publisher travels across the broker to subscriber
