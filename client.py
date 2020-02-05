@@ -18,7 +18,7 @@ class Subscriber:
         # self.socket.setsockopt(zmq.RCVTIMEO, 3000)
 
         self.socket.connect(self.full_add)
-        print("Subscriber onnected to the broker")
+        print("Subscriber connected to the broker")
 
     def register_sub(self, topics):
         topic_list = topics.split(",")
@@ -28,7 +28,7 @@ class Subscriber:
             self.socket.setsockopt_string(zmq.SUBSCRIBE, topic)
 
     def notify(self, stop=None):
-        if not None:
+        if stop:
             while (not stop.is_set()):
                 message = self.socket.recv_string()
                 topic, info = message.split("||")

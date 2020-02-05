@@ -19,7 +19,7 @@ class Broker:
         self.pub_socket.bind(full_add2)
 
     def run(self, stop=None):
-        if not None:
+        if stop:
             while (not stop.is_set()):
                 message = self.sub_socket.recv_string()
                 topic, info = message.split("||")
