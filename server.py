@@ -4,28 +4,30 @@ import zmq
 import time
 import sys
 
-# Initialize the socket
-ctx = zmq.Context()
-sock_pub = ctx.socket(zmq.PUB)
+class Publisher:
+    # instantiate variables and connect to broker
+    def __init__(self, ip_add):
+        self.topic = "Default"
+        self.full_add = "tcp://" + str(ip_add) + ":1234"
+        ctx = zmq.Context()
+        self.sock_pub = ctx.socket(zmq.PUB)
+        self.sock_pub.connect(self.full_add)
 
-# register a topic for this publisher
-def register_pub(topic):
-    # format for registering publisher is "REGISTER||topic"
-    msg = "REGISTER||" + str(topic) + "||"
-    time.sleep(1)
-    sock_pub.send_string(msg)
-    return True
+    # register a topic for this publisher
+    def register_pub(self, topic):
+        self.topic = topic
+        msg = "REGISTER||" + str(self.topic)
+        time.sleep(1)
+        self.sock_pub.send_string(msg)
+        return True
 
-# This function publishes the given information for the specified topic
-def publish(topic, info):
-    # format for published string is "topic||info"
-    msg = str(topic) + "||" + str(info)
-    sock_pub.send_string(msg)
-    return True
+    # publish the given information for pre-registered topic
+    def publish(self, info):
+        # format for published string is "topic||info"
+        msg = str(self.topic) + "||" + str(info)
+        self.sock_pub.send_string(msg)
+        return True
 
-# This function establishes a connection to the broker
-def connectToBroker(address):
-    sock_pub.connect(address)
 
 if __name__ == '__main__':
     # handle input
@@ -37,16 +39,13 @@ if __name__ == '__main__':
         # process input arguments
         topic = sys.argv[1]
         ip_add = sys.argv[2]
-        full_add = "tcp://" + str(ip_add) + ":1234"
 
-        # connect to Broker
-        connectToBroker(full_add)
-
-        # register publisher
-        register_pub(topic)
+        # create Publisher object
+        pub = Publisher(ip_add)
+        pub.register_pub(topic)
 
         # wait for inputted information to publish
         while True:
             info = input("Input information about your topic and press enter to publish!\n")
-            publish(topic, info)
+            pub.publish(info)
             print("Success!")
