@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import zmq
 import sys
 import threading
+import time
 
 class Subscriber:
 
@@ -30,6 +31,7 @@ class Subscriber:
                 message = self.socket.recv_string()
                 topic, info = message.split("||")
                 print("Topic: %s. Message: %s" % (topic, info))
+                # print("Time received: %.20f" % time.time())  # uncomment for measurements.py purposes
                 self.count = self.count + 1
         else:
             while True:
@@ -54,6 +56,3 @@ if __name__ == '__main__':
             sub.notify()
         except zmq.error.Again:
             print("Subscriber Timed-out")
-
-
-
