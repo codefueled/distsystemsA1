@@ -7,15 +7,12 @@ import threading
 class Subscriber:
 
     # instantiate variables and connect to broker
-    def __init__(self, ip_add):
+    def __init__(self, ip_add, timeout=-1):
         self.count = 0
         self.full_add = "tcp://" + str(ip_add) + ":5556"
         ctx = zmq.Context()
         self.socket = ctx.socket(zmq.SUB)
-
-        # self.socket.setsockopt(zmq.LINGER, 0)
-        # self.socket.setsockopt(zmq.AFFINITY, 1)
-        # self.socket.setsockopt(zmq.RCVTIMEO, 3000)
+        self.socket.RCVTIMEO = timeout
 
         self.socket.connect(self.full_add)
         print("Subscriber connected to the broker")
@@ -35,10 +32,11 @@ class Subscriber:
                 print("Topic: %s. Message: %s" % (topic, info))
                 self.count = self.count + 1
         else:
-            message = self.socket.recv_string()
-            topic, info = message.split("||")
-            print("Topic: %s. Message: %s" % (topic, info))
-            self.count = self.count + 1
+            while True:
+                message = self.socket.recv_string()
+                topic, info = message.split("||")
+                print("Topic: %s. Message: %s" % (topic, info))
+                self.count = self.count + 1
 
 if __name__ == '__main__':
     # handle input
@@ -52,8 +50,10 @@ if __name__ == '__main__':
         sub = Subscriber(ip_add)
         sub.register_sub(topics)
 
-        while True:
+        try:
             sub.notify()
+        except zmq.error.Again:
+            print("Subscriber Timed-out")
 
 
 
