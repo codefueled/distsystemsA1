@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 import zmq
 import sys
+import threading
 
 class Subscriber:
 
@@ -12,7 +13,7 @@ class Subscriber:
         ctx = zmq.Context()
         self.socket = ctx.socket(zmq.SUB)
         self.socket.connect(self.full_add)
-        print("Connected to the broker")
+        print("Subscriber onnected to the broker")
 
     def register_sub(self, topics):
         topic_list = topics.split(",")
@@ -26,6 +27,13 @@ class Subscriber:
         topic, info = message.split("||")
         print("Topic: %s. Message: %s" % (topic, info))
         self.results = self.results + "Topic: " + topic + ". Message: " + info + ".\n"
+
+    def notify(self, stop):
+        while(not stop.is_set()):
+            message = self.socket.recv_string()
+            topic, info = message.split("||")
+            print("Topic: %s. Message: %s" % (topic, info))
+            self.results = self.results + "Topic: " + topic + ". Message: " + info + ".\n"
 
 
 if __name__ == '__main__':
