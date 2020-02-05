@@ -3,40 +3,42 @@ from __future__ import unicode_literals
 import zmq
 import sys
 
-context = zmq.Context()
-#  Socket to talk to server
-print("Connecting to the broker…")
-socket = context.socket(zmq.SUB)
+class Subscriber:
 
-def register_sub(topicname):
-    socket.setsockopt_string(zmq.SUBSCRIBE, topicname)
+    # instantiate variables and connect to broker
+    def __init__(self, ip_add):
+        self.results = ""
+        self.full_add = "tcp://" + str(ip_add) + ":5556"
+        ctx = zmq.Context()
+        self.socket = ctx.socket(zmq.SUB)
+        self.socket.connect(self.full_add)
+        print("Connected to the broker")
 
-def notify():
-    while True:
-        message = socket.recv_string()
-        topic, info = message.split("||")
-        print("Topic: %s. Message: %s" % (topic, info))
+    def register_sub(self, topics):
+        topic_list = topics.split(",")
+        topic_list = [topic.strip() for topic in topics.split(',')]
+        for topic in topic_list:
+            #subscribe to topic
+            self.socket.setsockopt_string(zmq.SUBSCRIBE, topic)
+
+    def notify(self):
+        while True:
+            message = self.socket.recv_string()
+            topic, info = message.split("||")
+            print("Topic: %s. Message: %s" % (topic, info))
+            self.results = self.results + "Topic: " + topic + ". Message: " + info + ".\n"
+
 
 if __name__ == '__main__':
     # handle input
     if len(sys.argv) != 3:
         print("Please provide 2 arguments as specified in the readme")
     else:
-        # parse topics
+        # parse input
         topics = str(sys.argv[1])
-        topic_list = topics.split(",")
-        topic_list = [topic.strip() for topic in topics.split(',')]
-
-        # connect to broker
         ip_add = sys.argv[2]
-        full_add = "tcp://" + str(ip_add) + ":5556"
-        socket.connect(full_add)
-        print("Connected to the broker")
 
-        for topic in topic_list:
-            #subscribe to topic
-            register_sub(topic)
-
-        # listen for updates
-        notify()
+        sub = Subscriber(ip_add)
+        sub.register_sub(topics)
+        sub.notify()
 

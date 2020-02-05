@@ -12,6 +12,7 @@ class Publisher:
         ctx = zmq.Context()
         self.sock_pub = ctx.socket(zmq.PUB)
         self.sock_pub.connect(self.full_add)
+        print("Connected to the broker")
 
     # register a topic for this publisher
     def register_pub(self, topic):
