@@ -23,3 +23,6 @@ We estalbish the third host as a publisher. In a third xterm window issue the fo
 This will register the publisher with the broker. Now we are prompted to give the message associated with the topic "sports". We can enter "cool" for instance.
 
 Now we will see in the broker xterm window and the subscriber xterm window the topic that the publisher is associated with along with the message "cool". This demonstrates the correct information propagation from publisher to broker to subsciber.
+
+You should see the following results below:
+![Demoimage](images/simpledemo.JPG)
