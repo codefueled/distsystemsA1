@@ -12,7 +12,8 @@ pub_socket.bind("tcp://*:5556")
 while True:
     #  Wait for next request from client
     message = sub_socket.recv_string()
-    print("Received request: %s" % message)
-    #  Do some 'work'
-    #my_topic, messagedata = message.split("||")
+    print("Received: %s" % message)
+
+
+    ### DONT ALLOW TOPICS BEGINNING WITH THE SAME NAME
     pub_socket.send_string(message)
