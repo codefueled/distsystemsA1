@@ -2,17 +2,20 @@
 from __future__ import unicode_literals
 import zmq
 import sys
+import threading
 
 class Subscriber:
 
     # instantiate variables and connect to broker
-    def __init__(self, ip_add):
-        self.results = ""
+    def __init__(self, ip_add, timeout=-1):
+        self.count = 0
         self.full_add = "tcp://" + str(ip_add) + ":5556"
         ctx = zmq.Context()
         self.socket = ctx.socket(zmq.SUB)
+        self.socket.RCVTIMEO = timeout
+
         self.socket.connect(self.full_add)
-        print("Connected to the broker")
+        print("Subscriber connected to the broker")
 
     def register_sub(self, topics):
         topic_list = topics.split(",")
@@ -21,12 +24,19 @@ class Subscriber:
             #subscribe to topic
             self.socket.setsockopt_string(zmq.SUBSCRIBE, topic)
 
-    def notify(self):
-        message = self.socket.recv_string()
-        topic, info = message.split("||")
-        print("Topic: %s. Message: %s" % (topic, info))
-        self.results = self.results + "Topic: " + topic + ". Message: " + info + ".\n"
-
+    def notify(self, stop=None):
+        if stop:
+            while (not stop.is_set()):
+                message = self.socket.recv_string()
+                topic, info = message.split("||")
+                print("Topic: %s. Message: %s" % (topic, info))
+                self.count = self.count + 1
+        else:
+            while True:
+                message = self.socket.recv_string()
+                topic, info = message.split("||")
+                print("Topic: %s. Message: %s" % (topic, info))
+                self.count = self.count + 1
 
 if __name__ == '__main__':
     # handle input
@@ -40,8 +50,10 @@ if __name__ == '__main__':
         sub = Subscriber(ip_add)
         sub.register_sub(topics)
 
-        while True:
+        try:
             sub.notify()
+        except zmq.error.Again:
+            print("Subscriber Timed-out")
 
 
 

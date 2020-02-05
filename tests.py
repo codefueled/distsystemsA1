@@ -63,7 +63,3 @@ Establish broker, 1 publisher, and 10 subscribers
 Publisher provides topic = "cats" with message "tabby" and all subscribers are subscribed to topic "cats"
 Test measures the latency between time of publication and receipt of information to all subscribers
 """
-
-
-
-
