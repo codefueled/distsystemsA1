@@ -6,6 +6,7 @@ import sys
 context = zmq.Context()
 sub_socket = context.socket(zmq.SUB)
 pub_socket = context.socket(zmq.PUB)
+current_topics = []
 
 
 if __name__ == '__main__':
@@ -17,9 +18,16 @@ if __name__ == '__main__':
     sub_socket.subscribe("")
     pub_socket.bind(full_add2)
 
-    # wait for information
     while True:
         message = sub_socket.recv_string()
-        print("Received: %s" % message)
-        ###TODO: DONT ALLOW TOPICS BEGINNING WITH THE SAME NAME
-        pub_socket.send_string(message)
+        print(message)
+        topic, info = message.split("||")
+        error_flag = False
+        for curr_topic in current_topics:
+            if topic.startswith(curr_topic):
+                print("Topic is too similar to topic of another publisher, choose another")
+                error_flag = True
+        if not error_flag:
+            current_topics.append(topic)
+            print("Received: %s" % message)
+            pub_socket.send_string(message)
