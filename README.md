@@ -36,34 +36,34 @@ expect to see.
 Establish broker, 1 publisher, and 1 subscriber
 Publisher provides topic = "cats" with message "tabby" and subscriber is subscribed to topic "cats".
 Test ensures that the topic/message provided by the publisher travels across the broker to subscriber.
-![test1](images/test1.JPG)
+![test1](images/test1.jpg)
 
 ### Test 2 
 Establish broker, 1 publisher, and 1 subscriber
 Publisher provides topic = "cats" with message "tabby" and subscriber is subscribed to topic "dogs"
 Test ensures that the topic/message provided by the publisher is recognized by broker but not published to subscriber
-![test2](images/test2.JPG)
+![test2](images/test2.jpg)
 
 ### Test 3
 Establish broker, 1 publisher, and 2 subscribers
 Publisher provides topic "cats" with message "tabby" and 1 subscriber is subscribed to topic 
 "cats" and 1 subscriber is subscribed to topic "dogs".
 Test ensures that the subscriber subscribed to "cats" is the only one that receives the message.
-![test3](images/test3.PNG)
+![test3](images/test3.png)
 
 ### Test 4
 Establish broker, 2 publishers, and 1 subscriber
 Publisher provides topic "cats" with message "tabby"  and 1 subscriber is subscribed to topic = "cats".
 We then try to establish another publisher with topic = "catss".
 Test ensures that the publishers with too similar topics will be rejected by the broker.
-![test4](images/test4.JPG)
+![test4](images/test4.jpg)
 
 ### Test 5
 Establish broker, 1 publisher, and 1 subscriber
 Publisher provides topic = "cats" with message "tabby" and  1 subscriber is subscribed to topic "cats".
 Publisher then changes the message for topic "cats" to "shorthair".
 Test ensures that the change in message provided by the publisher is reflected in the subscriber to "cats".
-![test5](images/test5.JPG)
+![test5](images/test5.jpg)
 
 ### Test 6
 Establish broker, 3 publishers, and 4 subscribers
@@ -76,19 +76,19 @@ Establish broker, 3 publishers, and 4 subscribers
 1 subscriber is subscribed to topic = "rabbit"
 Test ensures that the change the broker should see all of the publications, but the subscribers should only see
 messages corresponding to their topics.
-![test6](images/test6.JPG)
+![test6](images/test6.jpg)
 
 ### Test 7
 Establish broker and 1 publisher
 Publisher provides topic = "cats" with message "tabby" 
 Test ensures that broker will see publication regardless of there being subscribers.
-![test7](images/test7.JPG)
+![test7](images/test7.jpg)
 
 ### Test 8
 Establish 1 publisher and 1 subscriber
 Publisher provides topic = "cats" with message "tabby" and all subscribers are subscribed to topic "cats"
 Test ensures that there is no message transfer due to lack of broker.
-![test8](images/test8.JPG)
+![test8](images/test8.jpg)
 
 ### Test 9 
 Establish 1 broker, 1 publisher, and 1 subscriber.
@@ -96,4 +96,4 @@ Publisher provides topic = "cats" with message "tabby" and all subscribers are s
 After message is seen to subscriber, create another publisher with topic = "dogs" and message "hound" with corresponding
 subscriber topic = "dogs".
 This test ensures that publishers and subscribers can be added during anytime in the process.
-![test9](images/test9.JPG)
+![test9](images/test9.jpg)
