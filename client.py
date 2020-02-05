@@ -8,10 +8,15 @@ class Subscriber:
 
     # instantiate variables and connect to broker
     def __init__(self, ip_add):
-        self.results = ""
+        self.count = 0
         self.full_add = "tcp://" + str(ip_add) + ":5556"
         ctx = zmq.Context()
         self.socket = ctx.socket(zmq.SUB)
+
+        # self.socket.setsockopt(zmq.LINGER, 0)
+        # self.socket.setsockopt(zmq.AFFINITY, 1)
+        # self.socket.setsockopt(zmq.RCVTIMEO, 3000)
+
         self.socket.connect(self.full_add)
         print("Subscriber onnected to the broker")
 
@@ -22,19 +27,18 @@ class Subscriber:
             #subscribe to topic
             self.socket.setsockopt_string(zmq.SUBSCRIBE, topic)
 
-    def notify(self):
-        message = self.socket.recv_string()
-        topic, info = message.split("||")
-        print("Topic: %s. Message: %s" % (topic, info))
-        self.results = self.results + "Topic: " + topic + ". Message: " + info + ".\n"
-
-    def notify(self, stop):
-        while(not stop.is_set()):
+    def notify(self, stop=None):
+        if not None:
+            while (not stop.is_set()):
+                message = self.socket.recv_string()
+                topic, info = message.split("||")
+                print("Topic: %s. Message: %s" % (topic, info))
+                self.count = self.count + 1
+        else:
             message = self.socket.recv_string()
             topic, info = message.split("||")
             print("Topic: %s. Message: %s" % (topic, info))
-            self.results = self.results + "Topic: " + topic + ". Message: " + info + ".\n"
-
+            self.count = self.count + 1
 
 if __name__ == '__main__':
     # handle input
