@@ -22,11 +22,10 @@ class Subscriber:
             self.socket.setsockopt_string(zmq.SUBSCRIBE, topic)
 
     def notify(self):
-        while True:
-            message = self.socket.recv_string()
-            topic, info = message.split("||")
-            print("Topic: %s. Message: %s" % (topic, info))
-            self.results = self.results + "Topic: " + topic + ". Message: " + info + ".\n"
+        message = self.socket.recv_string()
+        topic, info = message.split("||")
+        print("Topic: %s. Message: %s" % (topic, info))
+        self.results = self.results + "Topic: " + topic + ". Message: " + info + ".\n"
 
 
 if __name__ == '__main__':
@@ -40,5 +39,11 @@ if __name__ == '__main__':
 
         sub = Subscriber(ip_add)
         sub.register_sub(topics)
-        sub.notify()
+
+        i = 0
+        while i < 1000:
+            sub.notify()
+            i = i + 1
+
+
 
