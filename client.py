@@ -40,10 +40,8 @@ if __name__ == '__main__':
         sub = Subscriber(ip_add)
         sub.register_sub(topics)
 
-        i = 0
-        while i < 1000:
+        while True:
             sub.notify()
-            i = i + 1
 
 
 
