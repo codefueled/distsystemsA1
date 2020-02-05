@@ -1,20 +1,16 @@
 # Publisher
-
-#### TODO: handle multiple topics from same publisher?
+from __future__ import unicode_literals
 import zmq
 import time
 import sys
-import string
-import random
 
-# Initialize the sockets
+# Initialize the socket
 ctx = zmq.Context()
 sock_pub = ctx.socket(zmq.PUB)
 
-# NOTE - CURRENTLY NOT USING ID
-def register_pub(topic, id):
-    # format for registering publisher is "REGISTER||topic,id"
-    msg = "REGISTER||" + str(topic) + "||" + str(id)
+def register_pub(topic):
+    # format for registering publisher is "REGISTER||topic"
+    msg = "REGISTER||" + str(topic) + "||"
     time.sleep(1)
     sock_pub.send_string(msg)
     return True
@@ -38,21 +34,17 @@ if __name__ == '__main__':
         ip_add = sys.argv[2]
         full_add = "tcp://" + str(ip_add) + ":1234"
 
-
+        # connnect to broker
         sock_pub.connect(full_add)
 
-
-        # generate id
-        id = "" .join(random.choices(string.ascii_lowercase, k=8))
-
         # register publisher
-        register_pub(topic, id)
+        register_pub(topic)
 
-        # use a wait routine, and wait for information associated with the routne
+        # wait for inputted information to publish
         while True:
             info = input("Input information about your topic and press enter to publish!\n")
-            print("success!")
             publish(topic, info)
+            print("Success!")
 
         sock.close()
         ctx.term()
