@@ -25,7 +25,7 @@ class Broker:
         if topic == "REGISTER":
             error = False
             for curr_topic in self.current_topics:
-                if info.startswith(curr_topic):
+                if info.startswith(curr_topic) and info != curr_topic:
                     print("Topic is too similar to topic of another publisher, choose another")
                     error = True
             if not error:
